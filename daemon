@@ -1,0 +1,26 @@
+#!/bin/sh
+
+case "$1" in
+    -kill)
+        pkill -f '/home/roxqikk/new-year-widget.py'
+        pkill -f '/home/roxqikk/new-year-snow.py'
+        echo "New Year Widget остановлен."
+        ;;
+
+    "")
+        if ! pgrep -f '/home/roxqikk/new-year-widget.py' >/dev/null; then
+            nohup new_year_widget >/tmp/new_year_widget.log 2>&1 &
+        fi
+
+        if ! pgrep -f '/home/roxqikk/new-year-snow.py' >/dev/null; then
+            nohup python3 /home/roxqikk/new-year-snow.py >/tmp/new_year_snow.log 2>&1 &
+        fi
+
+        echo "New Year Widget запущен."
+        ;;
+
+    *)
+        echo "Использование: daemon [-kill]"
+        exit 1
+        ;;
+esac
